@@ -18,7 +18,8 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'phone_number' => $this->phone_number,
-            'address' => $this->address
+            'address' => $this->address,
+            'join' => $this->created_at->diffForHumans()
         ];
     }
 }
