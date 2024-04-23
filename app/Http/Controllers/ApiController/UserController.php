@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::get();
+        $users = User::orderByDesc('created_at')->get();
 
         return $this->responseJson(UserResource::collection($users));
     }
@@ -20,6 +20,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'name' => 'required|string',
             'email' => 'required|email|string',
             'password' => 'required',
             'phone_number' => 'required|string',
@@ -28,6 +29,8 @@ class UserController extends Controller
 
         User::create([
             'name' => $request->name,
+            'email' => $request->email,
+            'email_verified_at' => now(),
             'password' => Hash::make($request->password),
             'phone_number' => $request->phone_number,
             'address' => $request->address
@@ -46,18 +49,21 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $request->validate([
+            'name' => 'required|string',
             'email' => 'required|email|string',
-            'password' => 'required',
             'phone_number' => 'required|string',
             'address' => 'required|string',
         ]);
 
-        $user->update([
-            'name' => $request->name,
-            'password' => Hash::make($request->password),
-            'phone_number' => $request->phone_number,
-            'address' => $request->address
-        ]);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->address = $request->address;
+        $user->phone_number = $request->address;
+        if ($request->password) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
 
         return $this->responseJson([
             'message' => 'Successfully update user'

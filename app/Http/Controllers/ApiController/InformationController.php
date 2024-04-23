@@ -11,7 +11,7 @@ class InformationController extends Controller
 {
     public function index()
     {
-        $informations = Information::get();
+        $informations = Information::orderByDesc('created_at')->get();
 
         return $this->responseJson(InformationResource::collection($informations));
     }

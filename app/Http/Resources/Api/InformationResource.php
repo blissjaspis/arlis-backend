@@ -15,7 +15,8 @@ class InformationResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'food_recomendation'
+            'id' => $this->id,
+            'food_recomendation' => $this->food_recomendation
         ];
     }
 }

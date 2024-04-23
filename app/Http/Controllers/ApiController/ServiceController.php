@@ -11,7 +11,7 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $services = Service::get();
+        $services = Service::orderByDesc('created_at')->get();
 
         return $this->responseJson(ServiceResource::collection($services));
     }

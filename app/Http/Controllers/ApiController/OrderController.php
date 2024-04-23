@@ -11,7 +11,7 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::with(['user', 'service'])->get();
+        $orders = Order::with(['user', 'service'])->orderByDesc('created_at')->get();
 
         return $this->responseJson(OrderResource::collection($orders));
     }

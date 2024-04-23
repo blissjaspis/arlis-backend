@@ -11,7 +11,7 @@ class MemberController extends Controller
 {
     public function index()
     {
-        $members = Member::with(['user', 'service'])->get();
+        $members = Member::with(['user', 'service'])->orderByDesc('created_at')->get();
 
         return $this->responseJson(MemberResource::collection($members));
     }
