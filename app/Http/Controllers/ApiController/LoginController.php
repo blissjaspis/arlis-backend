@@ -37,4 +37,13 @@ class LoginController extends Controller
             'type' => 'Bearer'
         ]);
     }
+
+    public function logout()
+    {
+        Auth::guard('user-api')->user()->tokens()->delete();
+
+        return $this->responseJson([
+            'message' => 'Logout success'
+        ]);
+    }
 }
