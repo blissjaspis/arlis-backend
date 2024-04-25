@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\OrderResource;
 use App\Models\Order;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -19,17 +20,18 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
+            'order_code' => 'required|string',
             'user_id' => 'required',
             'service_id' => 'required',
-            'total_price' => 'required',
         ]);
 
+        $service = Service::findOrFail($request->service_id);
+
         Order::create([
-            'name' => $request->name,
+            'order_code' => $request->order_code,
             'user_id' => $request->user_id,
             'service_id' => $request->service_id,
-            'total_price' => $request->total_price
+            'total_price' => $service->price
         ]);
 
         return $this->responseJson([
@@ -45,17 +47,17 @@ class OrderController extends Controller
     public function update(Request $request, Order $order)
     {
         $request->validate([
-            'name' => 'required|string',
+            'order_code' => 'required|string',
             'user_id' => 'required',
             'service_id' => 'required',
-            'total_price' => 'required',
         ]);
 
+        $service = Service::findOrFail($request->service_id);
+
         $order->update([
-            'name' => $request->name,
+            'order_code' => $request->order_code,
             'user_id' => $request->user_id,
-            'service_id' => $request->service_id,
-            'total_price' => $request->total_price
+            'service_id' => $service->id,
         ]);
 
         return $this->responseJson([
