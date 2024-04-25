@@ -5,13 +5,14 @@ namespace App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\MemberResource;
 use App\Models\Member;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
     public function index()
     {
-        $members = Member::with(['user', 'service'])->orderByDesc('created_at')->get();
+        $members = Member::with('user', 'service')->orderByDesc('created_at')->get();
 
         return $this->responseJson(MemberResource::collection($members));
     }
@@ -27,7 +28,7 @@ class MemberController extends Controller
         Member::create([
             'user_id' => $request->user_id,
             'service_id' => $request->service_id,
-            'expired_at' => $request->expired_at
+            'expired_at' => Carbon::parse($request->expired_at)
         ]);
 
         return $this->responseJson([

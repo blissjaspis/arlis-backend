@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->index();
-            $table->unsignedBigInteger('services_id')->index();
+            $table->unsignedBigInteger('service_id')->index();
             $table->dateTime('expired_at');
             $table->timestamps();
         });

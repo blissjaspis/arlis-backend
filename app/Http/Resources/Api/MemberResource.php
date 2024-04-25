@@ -15,10 +15,13 @@ class MemberResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'user_name' => $this->id,
+            'id' => $this->id,
             'user_name' => $this->user->name,
+            'user_id' => $this->user->id,
             'service_name' => $this->service->name,
-            'expired_at' => $this->expired_at->format('d M Y H:i')
+            'service_id' => $this->service->id,
+            'expired_at' => $this->expired_at->format('Y-m-d'),
+            'expired_at_result' => $this->expired_at->format('d M Y H:i'),
         ];
     }
 }
